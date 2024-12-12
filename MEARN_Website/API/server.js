@@ -1,8 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import userRouter from './Routers/user.js';
+import bodyParser from 'express';
 
 const app = express();
+
+app.use(bodyParser.json());
 
 // home route to test :
 
