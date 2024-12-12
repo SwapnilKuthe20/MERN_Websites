@@ -1,6 +1,7 @@
 import { User } from "../Models/user.js";
 import bcrypt from 'bcryptjs';
 
+// register user
 export const register = async (req, res) => {
     const { name, email, password } = req.body;
     try {
@@ -16,6 +17,7 @@ export const register = async (req, res) => {
     }
 }
 
+// login user
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -28,6 +30,16 @@ export const login = async (req, res) => {
         res.json({ message: `Welcome user : ${User.name}`, success: true, user })
     } catch (error) {
         res.json({ message: error.message })
+    }
+}
+
+// all users
+export const users = async (req, res) => {
+    try {
+        const users = await User.find().sort({ createdAt: -1 })
+        res.json({ users })
+    } catch (error) {
+        res.json({message: error.message})
     }
 }
 
