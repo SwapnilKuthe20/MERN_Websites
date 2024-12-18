@@ -13,7 +13,7 @@ const cartItemSchema = new mongoose.Schema({
 })
 
 export const cartSchema = new mongoose.Schema({
-    userID: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         require: true

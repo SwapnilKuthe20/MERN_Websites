@@ -1,5 +1,6 @@
 import { User } from "../Models/user.js";
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 // register user
 export const register = async (req, res) => {
@@ -27,7 +28,10 @@ export const login = async (req, res) => {
         const validPass = await bcrypt.compare(password, user.password)
         if (!validPass) return res.json({ message: "Password is wrong", success: false })
 
-        res.json({ message: `Welcome user : ${User.name}`, success: true, user })
+        const token = jwt.sign({ userId: user._id }, "!@#$%^&*()", {
+            expiresIn: "356d"
+        })
+        res.json({ message: `Welcome user : ${User.name}`, token, success: true })
     } catch (error) {
         res.json({ message: error.message })
     }
@@ -39,7 +43,7 @@ export const users = async (req, res) => {
         const users = await User.find().sort({ createdAt: -1 })
         res.json({ users })
     } catch (error) {
-        res.json({message: error.message})
+        res.json({ message: error.message })
     }
 }
 

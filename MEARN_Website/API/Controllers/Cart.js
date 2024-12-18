@@ -1,10 +1,103 @@
-// import { Cart } from "../Models/Cart.js";
+import { Cart } from "../Models/Cart.js";
 
-// export const cartItems = async (req, res) => {
+// add to cart
+export const addToCart = async (req, res) => {
+    const { productId, title, price, qty, imgSrc } = req.body;
 
-//     try {
+    const userId = req.user;
 
-//     } catch (error) {
-//         res.json{ error.message }
-//     }
-// }
+    let cart = await Cart.findOne({ userId })
+    if (!cart) {
+        cart = new Cart({ userId, items: [] })
+    }
+
+    const itemIndex = cart.items.findIndex((item) => item.productId.toString() === productId)
+    if (itemIndex > -1) {
+        cart.items[itemIndex].qty += qty;
+        cart.items[itemIndex].price += price * qty;
+    } else {
+        cart.items.push({ productId, title, price, qty, imgSrc });
+    }
+
+    await cart.save();
+
+    res.json({ message: "Item added to cart", cart })
+}
+
+// get user cart
+export const userCart = async (req, res) => {
+    const userId = req.user;
+    try {
+        const cart = await Cart.findOne({ userId })
+        if (!cart) return res.json({ message: "Cart not found" })
+        res.json({ message: "user cart", cart })
+
+    } catch (error) {
+        res.json(error.message)
+    }
+}
+
+// remove product from cart
+export const removeProdutFromCart = async (req, res) => {
+    const productId = req.params.productId;
+    const userId = req.user;
+
+    let cart = await Cart.findOne({ userId })
+    if (!cart) return res.json({ message: "Cart not found" })
+    cart.items = cart.items.filter((item) => item.productId.toString() !== productId)
+
+    await cart.save();
+
+    res.json({ message: "product removed from cart" })
+}
+
+// clear cart
+export const clearCart = async (req, res) => {
+    const userId = req.user;
+
+    let cart = await Cart.findOne({ userId })
+    if (!cart) {
+        cart = new Cart({ items: [] })
+    } else {
+        cart.items = []
+    }
+    await cart.save();
+
+    res.json({ message: "cart cleared" })
+}
+
+// decrease quntity from cart
+export const decreaseProctQty = async (req, res) => {
+    const { productId, qty } = req.body;
+
+    const userId = req.user;
+
+    let cart = await Cart.findOne({ userId })
+    if (!cart) {
+        cart = new Cart({ userId, items: [] })
+    }
+
+    const itemIndex = cart.items.findIndex((item) => item.productId.toString() === productId)
+    if (itemIndex > -1) {
+        const item = cart.items[itemIndex]
+
+        if (item.qty > qty) {
+            const pricePerUnit = item.price / item.qty;
+
+            item.qty -= qty;
+            item.price -= pricePerUnit * qty
+        } else {
+            cart.items.splice(itemIndex, 1)
+        }
+
+    } else {
+        res.json({ message: "Invalid product id" })
+    }
+
+    await cart.save();
+    res.json({ message: "item quantity decrease ", cart })
+}
+
+
+
+
