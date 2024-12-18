@@ -1,3 +1,4 @@
+import { json } from "express";
 import { Products } from "../Models/product.js"
 
 // add product
@@ -37,6 +38,31 @@ export const getProductByID = async (req, res) => {
         res.json(error.message)
     }
 }
+
+// update specific product by id
+export const updateProductByID = async (req, res) => {
+    const id = req.params.id;
+    try {
+        let product = await Products.findByIdAndUpdate(id, req.body, { new: true })
+        if (!product) return res.json({ message: "Product id not found" })
+        res.json({ message: "Product has been updated", product, success: true })
+    } catch (error) {
+        res.json(error.message)
+    }
+}
+
+// delete product by id
+export const deleteProductByID = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const product = await Products.findByIdAndDelete(id)
+        if (!product) return res.json({ message: "Invalid ID" })
+        res.json({ message: "Product delete successfully" })
+    } catch (error) {
+        res.json(error.message)
+    }
+}
+
 
 
 
