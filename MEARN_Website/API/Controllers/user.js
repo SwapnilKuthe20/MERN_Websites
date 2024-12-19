@@ -47,4 +47,13 @@ export const users = async (req, res) => {
     }
 }
 
+// get user profile
+export const profile = async (req, res) => {
+    try {
+        res.json({ user: req.user });
+    } catch (error) {
+        res.json(error.message)
+    }
+}
+
 
