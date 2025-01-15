@@ -5,10 +5,17 @@ import bodyParser from 'express';
 import productRouter from './Routers/product.js';
 import cartRouter from './Routers/cart.js'
 import addressRouter from './Routers/address.js'
+import cors from 'cors'
 
 const app = express();
 
 app.use(bodyParser.json());
+
+app.use(cors({
+    origin: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}))
 
 // home route to test :
 app.get('/', (req, res) => res.json({ message: "This is home route" }))

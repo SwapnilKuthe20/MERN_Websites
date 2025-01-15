@@ -1,11 +1,6 @@
-import React from 'react'
+import { createContext } from "react";
 
-const AppContex = () => {
-    return (
-        <div>
-            
-        </div>
-    )
-}
+const AppContext = createContext()
 
-export default AppContex
+
+export default AppContext;  

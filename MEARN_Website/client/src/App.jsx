@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import Showproduct from './Components/Product/Showproduct';
 
 const App = () => {
-  return (
-    <div>
 
-    </div>
+  return (
+    <>
+      <Showproduct />
+    </>
   )
 }
 
