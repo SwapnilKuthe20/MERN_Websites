@@ -6,6 +6,9 @@ import Navbar from './Components/Navbar';
 import SearchProduct from './Components/Product/SearchProduct';
 import Register from './Components/User/Register';
 import Login from './Components/User/Login';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import Protectedroutes from './Components/User/Protectedroutes';
+
 
 const App = () => {
 
@@ -13,12 +16,14 @@ const App = () => {
     <>
       <Navbar />
       <Routes>
-        <Route path='/' element={<Showproduct />} />
+        <Route path='/' element={<Protectedroutes><Showproduct /></Protectedroutes>} />
         <Route path='/product/:id' element={<ProductDetail />} />
         <Route path='/product/search/:term' element={<SearchProduct />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
       </Routes>
+      <ToastContainer />
+
     </>
   )
 }

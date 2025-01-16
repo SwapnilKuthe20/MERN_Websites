@@ -38,15 +38,10 @@ const Register = () => {
             toast.success(response?.data?.message, {
                 position: "top-right",
                 autoClose: 1500,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
                 theme: "dark",
                 transition: Bounce,
             });
-            
+
             // Delay navigation to allow the toast to display
             if (response?.data?.success) {
                 setTimeout(() => {
@@ -58,11 +53,6 @@ const Register = () => {
             toast.error(error.response?.data?.message || "Something went wrong", {
                 position: "top-right",
                 autoClose: 1500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
                 theme: "dark",
                 transition: Bounce,
             });
@@ -119,7 +109,6 @@ const Register = () => {
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </div>
             </form>
-            <ToastContainer />
         </div>
     )
 }

@@ -41,3 +41,16 @@ body {
 .search-bar input:focus{
   outline: none;
 }
+.sub-bar{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: brown;
+  padding: 10px;
+}
+.sub-bar .item:hover{
+    cursor: pointer;
+    color: chartreuse;
+    font-weight: 500;
+}

@@ -3,14 +3,14 @@ import AppContext from "../../ContexApi/AppContex";
 import { Link } from "react-router-dom";
 
 const Showproduct = () => {
-    const { products } = useContext(AppContext);
+    const { products, filterData } = useContext(AppContext);
 
     return (
         <div className=" d-flex justify-content-center align-items-center ">
             <div className="row container">
 
-                {products && products.length > 0 ? (
-                    products.map((product) => {
+                {filterData && filterData?.length > 0 ? (
+                    filterData?.map((product) => {
                         const { category, title, price, imgSrc, _id, qty, description } = product;
 
                         return (
