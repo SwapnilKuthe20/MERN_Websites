@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { url } from '../ConstantUrl/ContantUrl';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+
 
 const Register = () => {
 
@@ -27,18 +29,44 @@ const Register = () => {
         password: form.Password
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        axios.post(`${url}/api/user/register`, payload)
-            .then((resp) => {
-                alert(resp.data.message);
-                resp?.data?.success && navigate('/login')
+        try {
+            const response = await axios.post(`${url}/api/user/register`, payload)
+            // console.log(resp.data.message);
+            toast.success(response?.data?.message, {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+            
+            // Delay navigation to allow the toast to display
+            if (response?.data?.success) {
+                setTimeout(() => {
+                    navigate('/login');
+                }, 1500); // Matches the autoClose time of the toast
+            }
 
-            })
-            .catch((error) => {
-                alert(error.message);
-            })
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Something went wrong", {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+        }
 
         setForm({
             Name: '',
@@ -84,12 +112,14 @@ const Register = () => {
                         onChange={handleChange}
                         id="password"
                         className="form-control"
+                        autocomplete="new-password"
                     />
                 </div>
                 <div className='d-grid col-6 mx-auto my-3'>
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </div>
             </form>
+            <ToastContainer />
         </div>
     )
 }
