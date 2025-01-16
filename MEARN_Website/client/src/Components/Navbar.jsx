@@ -2,14 +2,16 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
-    const [searchProduct, setSearchProduct] = useState("");
+    const [input, setInput] = useState("");
     const navigate = useNavigate();
 
     const submitHandler = (e) => {
-        setSearchProduct("");
         e.preventDefault();
-        navigate(`/product/search/${searchProduct}`)
+        navigate(`/product/search/${input}`)
+        setInput("");
     }
+
+
 
     return (
         <>
@@ -24,14 +26,15 @@ const Navbar = () => {
                         </span>
                         <input
                             type="text"
-                            onChange={(e) => setSearchProduct(e.target.value)}
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
                             placeholder='Search Products...'
                         />
                     </form>
                     <div className="right">
                         <button className="btn btn-warning mx-2">Cart</button>
                         <button className="btn btn-warning mx-2">Profile</button>
-                        <button className="btn btn-warning mx-2">Register</button>
+                        <Link to={'/register'} className="btn btn-warning mx-2">Register</Link>
                         <button className="btn btn-warning mx-2">LogIn</button>
                         <button className="btn btn-warning mx-2">LogOut</button>
                     </div>
