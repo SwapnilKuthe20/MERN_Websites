@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { url } from '../ConstantUrl/ContantUrl';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
 
@@ -18,6 +19,8 @@ const Register = () => {
         })
     }
 
+    const navigate = useNavigate();
+
     const payload = {
         name: form.Name,
         email: form.Email,
@@ -30,6 +33,8 @@ const Register = () => {
         axios.post(`${url}/api/user/register`, payload)
             .then((resp) => {
                 alert(resp.data.message);
+                resp?.data?.success && navigate('/login')
+
             })
             .catch((error) => {
                 alert(error.message);
@@ -40,6 +45,7 @@ const Register = () => {
             Email: '',
             Password: ''
         });
+
     }
 
 
