@@ -1,9 +1,43 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-/* body{
+
+body {
   background-color: black;
   color: white;
-} */
+}
+
+.nav-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: blueviolet;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: black;
+}
+
+.search-bar input {
+  border: none;
+  color: azure;
+  background-color: black;
+  width: 400px;
+  padding-left:10px ;
+}
+.search-bar input::placeholder{
+  color: antiquewhite;
+  font-weight: 600;
+}
+.search-bar input:focus{
+  outline: none;
+}
