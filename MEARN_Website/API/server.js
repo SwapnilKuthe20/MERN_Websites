@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import mongoose from 'mongoose';
 import userRouter from './Routers/user.js';
@@ -33,7 +35,7 @@ app.use('/api/cart', cartRouter);
 app.use('/api/address', addressRouter);
 
 
-mongoose.connect('mongodb+srv://swapnilkuthe20:UJ8u0BDIoJ46rwG5@e-commerse-cluster.dm5zk.mongodb.net/',
+mongoose.connect(process.env.MONGO_URI,
     {
         dbName: "E-Commerse_MERN"
     })
