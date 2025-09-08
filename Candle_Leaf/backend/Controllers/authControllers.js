@@ -86,7 +86,39 @@ const loginController = async (req, res) => {
     }
 }
 
+const generateTokenController = async (req, res) => {
+    try {
+        const refreshToken = req.cookies.refreshToken
+        // console.log(refreshToken, "...refreshToken");
+
+        if (!refreshToken) {
+            return res.status(400).json({ success: false, message: "Refresh Token not found" })
+        }
+
+        const decodePayload = Jwt.verify(refreshToken, process.env.REFRESH_TOKEN)
+        // console.log(decodePayload, "...decodedPayload");
+
+        const newAccessToken = Jwt.sign(
+            { userId: decodePayload._id, email: decodePayload.email },
+            process.env.ACCESS_TOKEN,
+            { expiresIn: process.env.ACCESS_EXPIRY }
+        )
+
+        req.user = decodePayload;
+
+        return res.status(200).json({
+            success: true,
+            accessToken: newAccessToken
+        })
+
+    } catch (error) {
+        console.log(error, "...Error occured in generateToken Controller");
+        return res.status(500).json({ success: false, message: "Internal server error" })
+    }
+}
+
 module.exports = {
     signupController,
-    loginController
+    loginController,
+    generateTokenController
 }

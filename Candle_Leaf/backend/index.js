@@ -4,6 +4,8 @@ require("./Utils/db")
 
 const cors = require('cors')
 const authRoutes = require("./Routes/authRoutes")
+const cookieParser = require('cookie-parser')
+const { productRoute } = require("./Routes/productRoutes")
 
 const app = express()
 
@@ -13,7 +15,11 @@ app.use(cors({
     credentials: true
 }))
 
+app.use(cookieParser())
+
 app.use('/api/auth', authRoutes)
+
+app.use("/products", productRoute)
 
 // Testing Route :
 
